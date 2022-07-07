@@ -4,6 +4,7 @@ import type { Selector } from '@reduxjs/toolkit'
 import type { DependencyList } from 'react'
 import {
   useCallback,
+  useDebugValue,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -856,6 +857,10 @@ export function buildHooks<Definitions extends EndpointDefinitions>({
               : noPendingQueryStateSelector,
           ...options,
         })
+
+        const { value, isLoading, isSuccess, isFailing } = queryStateResults;
+        useDebugValue({ value, isLoading, isSuccess, isFailing });
+
         return useMemo(
           () => ({ ...queryStateResults, ...querySubscriptionResults }),
           [queryStateResults, querySubscriptionResults]
